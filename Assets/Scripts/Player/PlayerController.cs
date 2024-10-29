@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    PlayerCondition condition;
+
     [Header("Movement")]
     public float moveSpeed;
     public float jumpPower;
@@ -27,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        condition = GetComponent<PlayerCondition>();
     }
 
     // Start is called before the first frame update
@@ -85,9 +88,10 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && IsGrounded())
+        if (context.phase == InputActionPhase.Started && IsGrounded() && condition.canJump)
         {
             _rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
+            condition.JumpStamina();
         }
     }
 

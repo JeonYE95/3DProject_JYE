@@ -23,6 +23,10 @@ public class PlayerCondition : MonoBehaviour, IDamagalbe
     public event Action onTakeDamage;
 
     public float speedMultiplier = 3f;
+    public float jumpStamina = 20f;
+    public float minJumpStamina = 10f;
+
+    public bool canJump => stamina.curValue >= minJumpStamina;
 
     private void Awake()
     {
@@ -79,5 +83,10 @@ public class PlayerCondition : MonoBehaviour, IDamagalbe
         yield return new WaitForSeconds(duration);
 
         controller.moveSpeed = originalSpeed;
+    }
+
+    public void JumpStamina()
+    {
+        stamina.Subtract(jumpStamina);
     }
 }
